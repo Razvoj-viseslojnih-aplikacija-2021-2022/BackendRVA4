@@ -4,6 +4,7 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -14,6 +15,7 @@ import java.util.List;
  * The persistent class for the porudzbina database table.
  * 
  */
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
 @NamedQuery(name="Porudzbina.findAll", query="SELECT p FROM Porudzbina p")
 public class Porudzbina implements Serializable {
@@ -41,7 +43,7 @@ public class Porudzbina implements Serializable {
 
 	@JsonIgnore
 	//bi-directional many-to-one association to StavkaPorudzbine
-	@OneToMany(mappedBy="porudzbina")
+	@OneToMany(mappedBy="porudzbina", cascade= {CascadeType.DETACH, CascadeType.REMOVE})
 	private List<StavkaPorudzbine> stavkaPorudzbines;
 
 	public Porudzbina() {
